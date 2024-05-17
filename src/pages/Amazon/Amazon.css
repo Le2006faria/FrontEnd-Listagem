@@ -1,0 +1,11 @@
+.ctn-vendas{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.alinhar{
+    display: flex;
+    align-items: center;
+}

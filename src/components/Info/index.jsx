@@ -11,7 +11,7 @@ function Info() {
                 Vocês devem criar uma tabela para listar os dados de uma API.
             </p>
             <p className={styles.paragrafo}>
-                Ao todo serão 3 tabelas, a primeira são os livros best-sellers da Amazon <br />
+                Ao todo serão 3 tabelas, a primeira são os livros best-sellers da vendas <br />
                 A segunda são Cards de jogadores do jogo FIFA 2022 <br />
                 A última são filmes e séries do catálogo da Netflix <br />
                 Para mais informações sobre a tarefa, consulte o arquivo README.md na raiz do projeto.

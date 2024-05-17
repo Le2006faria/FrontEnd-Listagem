@@ -1,11 +1,60 @@
-import styles from './Netflix.module.css';
-import NavBar from "../../components/NavBar";
+import NavBar from '../../components/NavBar';
+import { useState, useEffect } from 'react';
+import CNetflix from '../../components/CNetflix/CNetflix';
+import { Button } from 'react-bootstrap';
+import './Netflix.css';
 
 function CardNetflix() {
+    const [titulos, setTitulos] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(16);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://10.90.2.119:3333/titulos');
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar servidor');
+                }
+                const listarTitulos = await response.json();
+                setTitulos(listarTitulos);
+            } catch (error) {
+                console.error('Erro: ', error);
+            }
+        }
+    
+        fetchData();
+    }, []);
+    
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentTitulos = titulos && titulos.slice(indexOfFirstItem, indexOfLastItem);
+
+    const nextPage = () => {
+        setCurrentPage(currentPage + 1);
+    }
+
+    const prevPage = () => {
+        setCurrentPage(currentPage - 1);
+    }
+
     return (
         <>
             <NavBar />
-            <h1>Card Netflix</h1>
+            <div className='alinhar'>
+                <div className='ctn-titulos'>
+                    {currentTitulos ? (
+                        currentTitulos.map(titulos => (
+                            <CNetflix key={titulos.idTitulos} titulos={titulos} />
+                        ))
+                    ) : (
+                        <p>Carregando... Verifique se o servidor está funcionando</p>
+                    )}
+                </div>
+            </div>
+
+            <Button onClick={prevPage} disabled={currentPage === 1}>Anterior</Button>
+            <Button onClick={nextPage} disabled={currentPage === Math.ceil(titulos / itemsPerPage)}>Próximo</Button>
         </>
     );
 }
